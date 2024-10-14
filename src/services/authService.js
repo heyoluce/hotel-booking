@@ -1,34 +1,38 @@
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8080/api/v1/auth';
+import axiosInstance from './axiosInstance'
 
 const authService = {
   login: async (username, password) => {
-    const response = await axios.post(`${API_URL}/login`, { username, password });
-    if (response.data.token) {
-      localStorage.setItem('user', JSON.stringify(response.data));
-    }
-    return response.data;
+      const response = await axiosInstance.post('/login', { username, password });
+      if (response.data.accessToken && response.data.refreshToken) {
+          localStorage.setItem('user', JSON.stringify({
+              accessToken: response.data.accessToken,
+              refreshToken: response.data.refreshToken
+          }));
+      }
+      return response.data;
   },
   
-  register: async (username, email, password) => {
-    return axios.post(`${API_URL}/register`, { username, email, password });
+  register: async (name, username, password) => {
+      return axiosInstance.post('/register', { name, username, password });
   },
   
   logout: () => {
-    localStorage.removeItem('user');
+      localStorage.removeItem('user');
   },
   
   getCurrentUser: () => {
-    return JSON.parse(localStorage.getItem('user'));
+      return JSON.parse(localStorage.getItem('user'));
   },
 
   refreshToken: async (refreshToken) => {
-    const response = await axios.post(`${API_URL}/refresh`, { refreshToken });
-    if (response.data.token) {
-      localStorage.setItem('user', JSON.stringify(response.data));
-    }
-    return response.data;
+      const response = await axiosInstance.post('/refresh', { refreshToken });
+      if (response.data.accessToken) {
+          localStorage.setItem('user', JSON.stringify({
+              accessToken: response.data.accessToken,
+              refreshToken: response.data.refreshToken
+          }));
+      }
+      return response.data;
   }
 };
 

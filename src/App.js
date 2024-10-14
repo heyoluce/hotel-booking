@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { AuthProvider } from './context/AuthContext';
-import PrivateRoute from './components/PrivateRoute';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Login from './pages/Login';
@@ -25,9 +24,9 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/hotels" element={<PrivateRoute><HotelList /></PrivateRoute>} />
-            <Route path="/hotel/:id" element={<PrivateRoute><HotelDetails /></PrivateRoute>} />
-            <Route path="/profile" element={<PrivateRoute><UserProfile /></PrivateRoute>} />
+            <Route path="/hotels" element={<HotelList />} />
+            <Route path="/hotel/:id" element={<HotelDetails />}/>
+            <Route path="/profile" element={<UserProfile />}/>
           </Routes>
         </Router>
       </AuthProvider>

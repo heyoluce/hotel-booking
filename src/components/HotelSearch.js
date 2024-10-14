@@ -15,7 +15,7 @@ function HotelSearch({ onSearch }) {
         <Grid item xs={12} sm={8}>
           <TextField
             fullWidth
-            label="Поиск по городу"
+            label="Find by city"
             variant="outlined"
             value={city}
             onChange={(e) => setCity(e.target.value)}
@@ -28,7 +28,7 @@ function HotelSearch({ onSearch }) {
             color="primary"
             fullWidth
           >
-            Поиск
+            Search
           </Button>
         </Grid>
       </Grid>

@@ -7,13 +7,13 @@ function Home() {
   return (
     <Container maxWidth="sm" style={{ marginTop: '2rem', textAlign: 'center' }}>
       <Typography variant="h4" component="h1" gutterBottom>
-        Добро пожаловать в систему бронирования отелей
+        Welcome to hotel booking system
       </Typography>
       <Typography variant="body1" paragraph>
-        Найдите и забронируйте лучшие отели для вашего путешествия.
+        Find and book best hotels for your travel!
       </Typography>
       <Button variant="contained" color="primary" component={RouterLink} to="/hotels">
-        Начать поиск
+        Start
       </Button>
     </Container>
   );

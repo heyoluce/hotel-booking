@@ -4,6 +4,7 @@ import { Container, Typography, List, ListItem, ListItemText, Paper } from '@mui
 import hotelService from '../services/hotelService';
 import HotelSearch from '../components/HotelSearch';
 import Pagination from '../components/Pagination';
+import { CircularProgress, Box } from '@mui/material';
 
 function HotelList() {
   const [hotels, setHotels] = useState([]);
@@ -38,13 +39,22 @@ function HotelList() {
   };
 
   if (loading) {
-    return <Typography>Загрузка...</Typography>;
+    return (
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        height="100vh" 
+      >
+        <CircularProgress /> 
+      </Box>
+    );
   }
 
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Список отелей
+        List of hotels
       </Typography>
       <HotelSearch onSearch={handleSearch} />
       <Paper elevation={3} style={{ marginTop: '1rem', marginBottom: '1rem' }}>

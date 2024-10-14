@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Typography, Paper } from '@mui/material';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css'; // Import the CSS for the date picker
+import 'react-datepicker/dist/react-datepicker.css'; 
 import bookingService from '../services/bookingService';
 
 function BookingForm({ hotelId }) {
@@ -23,9 +23,9 @@ function BookingForm({ hotelId }) {
         checkOut,
         guests
       });
-      setSuccess('Бронирование успешно создано!');
+      setSuccess('Booking success!');
     } catch (error) {
-      setError('Ошибка при создании бронирования. Попробуйте еще раз.');
+      setError('Error! Try again.');
     }
   };
 
@@ -46,7 +46,7 @@ function BookingForm({ hotelId }) {
               dateFormat="dd/MM/yyyy"
               className="date-picker"
               isClearable
-              placeholderText="Выберите дату"
+              placeholderText="Pick the date"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -57,13 +57,13 @@ function BookingForm({ hotelId }) {
               dateFormat="dd/MM/yyyy"
               className="date-picker"
               isClearable
-              placeholderText="Выберите дату"
+              placeholderText="Pick the date"
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               fullWidth
-              label="Количество гостей"
+              label="Count of guests"
               type="number"
               value={guests}
               onChange={(e) => setGuests(parseInt(e.target.value))}
@@ -77,7 +77,7 @@ function BookingForm({ hotelId }) {
               color="primary"
               fullWidth
             >
-              Забронировать
+              OK
             </Button>
           </Grid>
         </Grid>

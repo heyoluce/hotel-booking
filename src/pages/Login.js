@@ -8,23 +8,23 @@ function Login() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const { login } = useContext(AuthContext);
-  const navigate = useNavigate(); // Заменил useHistory на useNavigate
+  const navigate = useNavigate(); 
 
   const handleLogin = async (e) => {
     e.preventDefault();
     setError('');
     try {
       await login(username, password);
-      navigate('/hotels'); // Заменил history.push на navigate
+      navigate('/hotels'); 
     } catch (error) {
-      setError('Неверное имя пользователя или пароль');
+      setError('Incorrect username or password');
     }
   };
 
   return (
     <Container maxWidth="xs">
       <Typography variant="h4" align="center" gutterBottom>
-        Вход в систему
+        Sign in
       </Typography>
       {error && <Typography color="error">{error}</Typography>}
       <form onSubmit={handleLogin}>
@@ -33,7 +33,7 @@ function Login() {
           margin="normal"
           required
           fullWidth
-          label="Имя пользователя"
+          label="Username"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
         />
@@ -42,7 +42,7 @@ function Login() {
           margin="normal"
           required
           fullWidth
-          label="Пароль"
+          label="Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -58,7 +58,7 @@ function Login() {
         </Button>
       </form>
       <Typography style={{ marginTop: '1rem' }}>
-        Нет аккаунта? <Link component={RouterLink} to="/register">Зарегистрируйтесь</Link>
+        Not registered? <Link component={RouterLink} to="/register">Sign up</Link>
       </Typography>
     </Container>
   );

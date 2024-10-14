@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import { Container, Typography, Paper, Button } from '@mui/material';
 import hotelService from '../services/hotelService';
 import BookingForm from '../components/BookingForm';
+import { CircularProgress, Box } from '@mui/material';
 
 function HotelDetails() {
   const { id } = useParams();
@@ -24,9 +25,16 @@ function HotelDetails() {
     setLoading(false);
   };
 
-  if (loading) {
-    return <Typography>Загрузка...</Typography>;
-  }
+  return (
+    <Box 
+      display="flex" 
+      justifyContent="center" 
+      alignItems="center" 
+      height="100vh" 
+    >
+      <CircularProgress /> 
+    </Box>
+  );
 
   return (
     <Container>

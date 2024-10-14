@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Container, Typography, TextField, Button, Paper } from '@mui/material'; // изменен импорт на @mui/material
+import { Container, Typography, TextField, Button, Paper, CircularProgress, Box } from '@mui/material'; 
 import { AuthContext } from '../context/AuthContext';
 import bookingService from '../services/bookingService';
 
@@ -24,16 +24,24 @@ function UserProfile() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      await bookingService.cancelBooking(bookingId); // добавлена функция отмены бронирования
-      setBookings(bookings.filter((booking) => booking.id !== bookingId)); // обновляем список бронирований
+      await bookingService.cancelBooking(bookingId); 
+      setBookings(bookings.filter((booking) => booking.id !== bookingId)); 
     } catch (error) {
       console.error('Ошибка при отмене бронирования:', error);
     }
   };
 
   if (loading) {
-    return <Typography>Загрузка...</Typography>;
-  }
+    return (
+      <Box 
+        display="flex" 
+        justifyContent="center" 
+        alignItems="center" 
+        height="100vh" 
+      >
+        <CircularProgress /> 
+      </Box>
+    );  }
 
   return (
     <Container>

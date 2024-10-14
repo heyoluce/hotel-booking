@@ -5,28 +5,27 @@ import { AuthContext } from '../context/AuthContext';
 
 function Register() {
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const [error, setError] = useState('');
   const { register } = useContext(AuthContext);
-  const navigate = useNavigate(); // используем useNavigate вместо useHistory
+  const navigate = useNavigate(); 
 
   const handleRegister = async (e) => {
     e.preventDefault();
     setError('');
 
-    // Проверка на совпадение паролей
     if (password !== passwordConfirmation) {
-      setError('Пароли не совпадают.');
+      setError('Password do not match.');
       return;
     }
 
     try {
-      await register(username, email, password);
-      navigate('/login'); // используем navigate для перехода
+      await register(name, username, password);
+      navigate('/login'); 
     } catch (error) {
-      setError('Ошибка при регистрации. Попробуйте еще раз.');
+      setError('Error! Try again.');
     }
   };
 
@@ -37,8 +36,17 @@ function Register() {
       </Typography>
       {error && <Typography color="error">{error}</Typography>}
       <form onSubmit={handleRegister}>
+      <TextField
+          label="Name"
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <TextField
-          label="Имя пользователя"
+          label="Username"
           variant="outlined"
           margin="normal"
           required
@@ -47,17 +55,7 @@ function Register() {
           onChange={(e) => setUsername(e.target.value)}
         />
         <TextField
-          label="Email"
-          type="email"
-          variant="outlined"
-          margin="normal"
-          required
-          fullWidth
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          label="Пароль"
+          label="Password"
           type="password"
           variant="outlined"
           margin="normal"
@@ -67,7 +65,7 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <TextField
-          label="Подтвердите пароль"
+          label="Confirm password"
           type="password"
           variant="outlined"
           margin="normal"
@@ -77,13 +75,13 @@ function Register() {
           onChange={(e) => setPasswordConfirmation(e.target.value)}
         />
         <Button type="submit" fullWidth variant="contained" color="primary" style={{ marginTop: '20px' }}>
-          Зарегистрироваться
+          Sign up
         </Button>
       </form>
       <Typography align="center" style={{ marginTop: '10px' }}>
-        Уже есть аккаунт?{' '}
+        Already registered?{' '}
         <Link component={RouterLink} to="/login">
-          Войти
+          Sign in
         </Link>
       </Typography>
     </Container>

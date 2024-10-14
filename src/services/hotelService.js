@@ -4,8 +4,8 @@ import authHeader from './authHeader';
 const API_URL = 'http://localhost:8080/api/hotels';
 
 const hotelService = {
-  getHotels: async (page = 0, city = '') => {
-    return axios.get(`${API_URL}?page=${page}&city=${city}`, { headers: authHeader() });
+  getHotels: async (page , city = '') => {
+    return axios.get(`${API_URL}`, { headers: authHeader() });
   },
 
   getHotelById: async (id) => {
@@ -13,7 +13,7 @@ const hotelService = {
   },
 
   searchHotels: async (city, page = 0) => {
-    return axios.get(`${API_URL}/city/${city}?page=${page}`, { headers: authHeader() });
+    return axios.get(`${API_URL}/city/${city}`, { headers: authHeader() });
   }
 };
 

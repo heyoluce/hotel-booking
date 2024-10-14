@@ -11,28 +11,28 @@ function Header() {
       <Toolbar>
         <Typography variant="h6" style={{ flexGrow: 1 }}>
           <Link component={RouterLink} to="/" color="inherit">
-            Бронирование отелей
+            Hotels booking
           </Link>
         </Typography>
         {user ? (
           <>
             <Button color="inherit" component={RouterLink} to="/hotels">
-              Отели
+              Hotels
             </Button>
             <Button color="inherit" component={RouterLink} to="/profile">
-              Профиль
+              Profile
             </Button>
             <Button color="inherit" onClick={logout}>
-              Выйти
+              Log out
             </Button>
           </>
         ) : (
           <>
             <Button color="inherit" component={RouterLink} to="/login">
-              Войти
+              Sign in
             </Button>
             <Button color="inherit" component={RouterLink} to="/register">
-              Регистрация
+              Sign up
             </Button>
           </>
         )}
