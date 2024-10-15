@@ -20,22 +20,18 @@ axiosInstance.interceptors.request.use(
     }
 );
 
-// Interceptor для обработки ошибок и обновления токена
 axiosInstance.interceptors.response.use(
     (response) => response,
     async (error) => {
         const originalRequest = error.config;
         const user = JSON.parse(localStorage.getItem('user'));
 
-        // Если ошибка 401 и токен не обновлялся ранее
         if (error.response.status === 401 && !originalRequest._retry && user?.refreshToken) {
             originalRequest._retry = true;
 
-            // Обновляем токен
             const newTokens = await authService.refreshToken(user.refreshToken);
             localStorage.setItem('user', JSON.stringify(newTokens));
             
-            // Повторный запрос с новым токеном
             originalRequest.headers['Authorization'] = 'Bearer ' + newTokens.accessToken;
             return axiosInstance(originalRequest);
         }

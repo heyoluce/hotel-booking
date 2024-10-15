@@ -24,7 +24,7 @@ function UserProfile() {
 
   const handleCancelBooking = async (bookingId) => {
     try {
-      await bookingService.cancelBooking(bookingId); 
+      await bookingService.deleteBooking(bookingId); 
       setBookings(bookings.filter((booking) => booking.id !== bookingId)); 
     } catch (error) {
       console.error('Ошибка при отмене бронирования:', error);
@@ -46,23 +46,14 @@ function UserProfile() {
   return (
     <Container>
       <Typography variant="h4" gutterBottom>
-        Профиль пользователя
+        User profile
       </Typography>
       <Paper elevation={3} style={{ padding: '1rem', marginBottom: '1rem' }}>
-        <Typography variant="h6">Информация о пользователе</Typography>
+        <Typography variant="h6">Info about you</Typography>
         <TextField
           fullWidth
-          label="Имя пользователя"
+          label="Username"
           value={user.username}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-        />
-        <TextField
-          fullWidth
-          label="Email"
-          value={user.email}
           margin="normal"
           InputProps={{
             readOnly: true,
@@ -70,27 +61,27 @@ function UserProfile() {
         />
       </Paper>
       <Typography variant="h6" gutterBottom>
-        Ваши бронирования
+        Your bookings
       </Typography>
       {bookings.length > 0 ? (
         bookings.map((booking) => (
           <Paper key={booking.id} elevation={3} style={{ padding: '1rem', marginBottom: '1rem' }}>
-            <Typography>Отель: {booking.hotelName}</Typography>
-            <Typography>Дата заезда: {new Date(booking.checkIn).toLocaleDateString()}</Typography>
-            <Typography>Дата выезда: {new Date(booking.checkOut).toLocaleDateString()}</Typography>
-            <Typography>Количество гостей: {booking.guests}</Typography>
+            <Typography>Hotel: {booking.hotelName}</Typography>
+            <Typography>In date: {new Date(booking.checkIn).toLocaleDateString()}</Typography>
+            <Typography>Out date: {new Date(booking.checkOut).toLocaleDateString()}</Typography>
+            <Typography>Guests: {booking.guests}</Typography>
             <Button
               variant="outlined"
               color="secondary"
-              onClick={() => handleCancelBooking(booking.id)} // добавлена обработка отмены бронирования
+              onClick={() => handleCancelBooking(booking.id)} 
               style={{ marginTop: '0.5rem' }}
             >
-              Отменить бронирование
+              Cancel booking
             </Button>
           </Paper>
         ))
       ) : (
-        <Typography>У вас пока нет бронирований.</Typography>
+        <Typography>You don't have bookings yet.</Typography>
       )}
     </Container>
   );

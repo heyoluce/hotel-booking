@@ -2,9 +2,10 @@ import axiosInstance from './axiosInstance'
 
 const authService = {
   login: async (username, password) => {
-      const response = await axiosInstance.post('/login', { username, password });
-      if (response.data.accessToken && response.data.refreshToken) {
+      const response = await axiosInstance.post('/login', {  username, password });
+      if (response.data.id && response.data.accessToken && response.data.refreshToken) {
           localStorage.setItem('user', JSON.stringify({
+              id: response.data.id,
               accessToken: response.data.accessToken,
               refreshToken: response.data.refreshToken
           }));

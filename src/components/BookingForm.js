@@ -1,73 +1,106 @@
-import React, { useState } from 'react';
-import { TextField, Button, Grid, Typography, Paper } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Button, Grid, Typography, Paper, Alert } from '@mui/material';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css'; 
-import bookingService from '../services/bookingService';
+import 'react-datepicker/dist/react-datepicker.css';
 
-function BookingForm({ hotelId }) {
-  const [checkIn, setCheckIn] = useState(new Date());
-  const [checkOut, setCheckOut] = useState(new Date());
-  const [guests, setGuests] = useState(1);
+import bookingService from '../services/bookingService';
+import authService from '../services/authService';
+
+const BookingForm = () => {
+  const { id: hotelId } = useParams(); 
+  const [checkInDate, setCheckInDate] = useState(null);
+  const [checkOutDate, setCheckOutDate] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const currentUser = await authService.getCurrentUser();
+        setUserId(currentUser.id);
+      } catch (error) {
+        console.error('Error fetching current user:', error);
+        setError('Unable to fetch user information. Please try again later.');
+      }
+    };
+    fetchUser();
+  }, []);
 
   const handleBooking = async (e) => {
     e.preventDefault();
     setError('');
     setSuccess('');
 
+    if (!hotelId) {
+      setError('Hotel ID is missing. Please make sure you are on the correct page.');
+      return;
+    }
+
+    if (!userId) {
+      setError('User information is not available. Please log in and try again.');
+      return;
+    }
+
+    if (!checkInDate || !checkOutDate) {
+      setError('Please select both check-in and check-out dates.');
+      return;
+    }
+
     try {
+      console.log('Booking data:', { hotelId, userId, checkInDate, checkOutDate });
       await bookingService.createBooking({
         hotelId,
-        checkIn,
-        checkOut,
-        guests
+        userId,
+        checkInDate,
+        checkOutDate,
+        isActive: true,
       });
-      setSuccess('Booking success!');
+      setSuccess('Booking successful!');
     } catch (error) {
-      setError('Error! Try again.');
+      console.error('Booking error:', error);
+      setError('Error occurred while booking. Please try again.');
     }
   };
 
   return (
     <Paper elevation={3} style={{ padding: '1rem', marginTop: '1rem' }}>
       <Typography variant="h6" gutterBottom>
-        Форма бронирования
+        Booking Form for Hotel ID: {hotelId || 'Not specified'}
       </Typography>
-      {error && <Typography color="error">{error}</Typography>}
-      {success && <Typography color="primary">{success}</Typography>}
+      {error && <Alert severity="error">{error}</Alert>}
+      {success && <Alert severity="success">{success}</Alert>}
       <form onSubmit={handleBooking}>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1" gutterBottom>Дата заезда</Typography>
+            <Typography variant="subtitle1" gutterBottom>Check-in Date</Typography>
             <DatePicker
-              selected={checkIn}
-              onChange={(date) => setCheckIn(date)}
+              selected={checkInDate}
+              onChange={(date) => setCheckInDate(date)}
+              selectsStart
+              startDate={checkInDate}
+              endDate={checkOutDate}
+              minDate={new Date()}
               dateFormat="dd/MM/yyyy"
               className="date-picker"
               isClearable
-              placeholderText="Pick the date"
+              placeholderText="Select check-in date"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
-            <Typography variant="subtitle1" gutterBottom>Дата выезда</Typography>
+            <Typography variant="subtitle1" gutterBottom>Check-out Date</Typography>
             <DatePicker
-              selected={checkOut}
-              onChange={(date) => setCheckOut(date)}
+              selected={checkOutDate}
+              onChange={(date) => setCheckOutDate(date)}
+              selectsEnd
+              startDate={checkInDate}
+              endDate={checkOutDate}
+              minDate={checkInDate || new Date()}
               dateFormat="dd/MM/yyyy"
               className="date-picker"
               isClearable
-              placeholderText="Pick the date"
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Count of guests"
-              type="number"
-              value={guests}
-              onChange={(e) => setGuests(parseInt(e.target.value))}
-              InputProps={{ inputProps: { min: 1 } }}
+              placeholderText="Select check-out date"
             />
           </Grid>
           <Grid item xs={12}>
@@ -76,14 +109,15 @@ function BookingForm({ hotelId }) {
               variant="contained"
               color="primary"
               fullWidth
+              disabled={!hotelId || !userId}
             >
-              OK
+              Book Now
             </Button>
           </Grid>
         </Grid>
       </form>
     </Paper>
   );
-}
+};
 
 export default BookingForm;

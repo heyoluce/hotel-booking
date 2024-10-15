@@ -22,6 +22,10 @@ const bookingService = {
 
   deleteBooking: async (id) => {
     return axios.delete(`${API_URL}/${id}`, { headers: authHeader() });
+  },
+
+  cancelBooking: async (id) => {
+    return axios.delete(`${API_URL}/${id}`, { headers: authHeader})
   }
 };
 
