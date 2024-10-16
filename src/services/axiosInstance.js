@@ -11,7 +11,7 @@ axiosInstance.interceptors.request.use(
     (config) => {
         const user = JSON.parse(localStorage.getItem('user'));
         if (user && user.accessToken) {
-            config.headers['Authorization'] = 'Bearer ' + user.accessToken; // Добавляем токен
+            config.headers['Authorization'] = 'Bearer ' + user.accessToken; 
         }
         return config;
     },

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pagination as MUIPagination } from '@mui/material'; // Изменил путь импорта
+import { Pagination as MUIPagination } from '@mui/material'; 
 
 function Pagination({ count, page, onChange }) {
   return (

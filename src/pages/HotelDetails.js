@@ -8,7 +8,7 @@ import bookingService from '../services/bookingService';
 import authService from '../services/authService';
 
 const BookingForm = () => {
-  const { id: hotelId } = useParams(); // Assuming your route is set up to use id as a parameter
+  const { id: hotelId } = useParams(); 
   const [checkInDate, setCheckInDate] = useState(null);
   const [checkOutDate, setCheckOutDate] = useState(null);
   const [error, setError] = useState('');
@@ -33,7 +33,7 @@ const BookingForm = () => {
     setError('');
     setSuccess('');
 
-    // Check if hotelId and userId are valid
+    
     if (!hotelId) {
       setError('Hotel ID is missing. Please make sure you are on the correct page.');
       return;
@@ -44,7 +44,7 @@ const BookingForm = () => {
       return;
     }
 
-    // Ensure check-in and check-out dates are selected
+    
     if (!checkInDate || !checkOutDate) {
       setError('Please select both check-in and check-out dates.');
       return;

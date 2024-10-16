@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Typography, Button } from '@mui/material'; // Изменил путь импорта
+import { Container, Typography, Button } from '@mui/material'; 
 
 import { Link as RouterLink } from 'react-router-dom';
 
